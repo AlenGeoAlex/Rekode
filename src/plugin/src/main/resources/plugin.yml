@@ -1,0 +1,6 @@
+name: ${rootProject.name}-${project.name}
+version: ${project.version}
+main: me.alenalex.rekode.RekodePlugin
+api-version: '1.20'
+author: Alen Alex
+description: A simple mine plugin
