@@ -3,6 +3,8 @@ package me.alenalex.rekode.base.json;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Type;
+
 public interface IJsonProvider {
 
     /**
@@ -22,5 +24,14 @@ public interface IJsonProvider {
      * @param <T> Type of object
      */
     @Nullable <T> T fromJsonString(@NotNull String jsonString, Class<T> classOfT);
+
+    /**
+     * Converts a string back to its object with generic type information preserved
+     * @param jsonString a valid JSON String
+     * @param typeOfT Type with generic information
+     * @return the constructed object
+     * @param <T> Type of object
+     */
+    @Nullable <T> T fromJsonString(@NotNull String jsonString, Type typeOfT);
 
 }

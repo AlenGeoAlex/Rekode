@@ -5,6 +5,8 @@ import com.google.gson.GsonBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Type;
+
 public class GsonJsonProvider implements IJsonProvider {
 
     private final Gson gson = new GsonBuilder()
@@ -21,6 +23,15 @@ public class GsonJsonProvider implements IJsonProvider {
     public <T> @Nullable T fromJsonString(@NotNull String jsonString, Class<T> classOfT) {
         try {
             return gson.fromJson(jsonString, classOfT);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public <T> @Nullable T fromJsonString(@NotNull String jsonString, Type typeOfT) {
+        try {
+            return gson.fromJson(jsonString, typeOfT);
         } catch (Exception e) {
             return null;
         }

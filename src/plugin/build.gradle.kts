@@ -5,19 +5,26 @@ val paperApiVersion: String by project.rootProject.extra
 val jooqVersion: String by project.rootProject.extra // For shading jOOQ runtime
 dependencies {
     implementation(project(":src:abstraction"))
-    // Paper API - compileOnly because the server provides it
+    implementation(project(":src:entities"))
+    implementation(project(":src:base"))
     compileOnly("io.papermc.paper:paper-api:${paperApiVersion}")
-// jOOQ runtime - We need to shade this into our plugin JAR
     implementation("org.jooq:jooq:${jooqVersion}")
+    implementation("de.exlll:configlib-yaml:4.6.0")
+    implementation("ch.qos.logback:logback-core:1.5.13")
+    implementation("ch.qos.logback:logback-classic:1.5.13")
+    implementation("org.mariadb.jdbc:mariadb-java-client:3.3.2")
 }
 
 tasks {
-    // Configure the shadowJar task to create a fat JAR
     shadowJar {
-        archiveClassifier.set("") // No '-all' or '-shadow' suffix in the JAR name
+        archiveClassifier.set("")
 
         relocate("org.jooq", "${project.group}.shaded.jooq")
-        relocate("org.mariadb.jdbc", "${project.group}.shaded.mariadb.jdbc") // <-- ADD THIS
+        relocate("org.mariadb.jdbc", "${project.group}.shaded.mariadb.jdbc")
+        relocate("com.zaxxer.hikari", "${project.group}.shaded.hikari")
+        relocate("org.slf4j", "${project.group}.shaded.slf4j")
+        relocate("ch.qos.logback", "${project.group}.shaded.logback")
+        relocate("com.google.code.gson", "${project.group}.shaded.gson")
     }
 
     // Make the standard 'build' task depend on 'shadowJar'

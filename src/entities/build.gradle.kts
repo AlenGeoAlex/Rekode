@@ -24,7 +24,7 @@ buildscript {
 
 dependencies {
     implementation(project(":src:base"))
-    implementation("org.jooq:jooq:$jooqVersion")
+    api("org.jooq:jooq:$jooqVersion")
     jooqGenerator("org.slf4j:slf4j-simple:2.0.9")
     jooqGenerator("org.mariadb.jdbc:mariadb-java-client:$mariaDbDriverVersion")
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
@@ -83,7 +83,21 @@ jooq {
                                     .withGenericConverter(false)
                                     .withConverter("me.alenalex.rekode.entities.converters.PointConverter")
                                     .withIncludeExpression("(?i)(MIN_POINT|MAX_POINT)")
-                                    .withIncludeTypes("VARCHAR\\(500\\)")
+                                    .withIncludeTypes("VARCHAR\\(500\\)"),
+
+                                ForcedType()
+                                    .withUserType("me.alenalex.rekode.base.structs.WorldPoint")
+                                    .withGenericConverter(false)
+                                    .withConverter("me.alenalex.rekode.entities.converters.WorldPointConverter")
+                                    .withIncludeExpression("(?i)(LAST_LOCATION)")
+                                    .withIncludeTypes("TEXT"),
+
+                                ForcedType()
+                                    .withUserType("me.alenalex.rekode.base.contracts.entities.Metadata")
+                                    .withGenericConverter(false)
+                                    .withConverter("me.alenalex.rekode.entities.converters.MetadataConverter")
+                                    .withIncludeExpression("(?i)(METADATA)")
+                                    .withIncludeTypes("LONGTEXT")
                             )
                         }
                     }
